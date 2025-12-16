@@ -132,7 +132,7 @@ npm run dev
 
 ---
 
-## 🎨 Theme 2 - Advanced Features
+## 🎨 Theme - Advanced Features
 
 Lumina now includes two powerful AI-powered tools:
 
@@ -175,8 +175,7 @@ Generate consistent AI-written content:
 - **Gemini TTS**: Text-to-speech conversion
 
 ### API Efficiency
-- **Theme 1**: 1-3 API calls per image analysis
-- **Theme 2**: 1 API call for multi-variant generation (vs 5+ traditionally)
+- **Theme **: 1-3 API calls per image analysis . 1 API call for multi-variant generation (vs 5+ traditionally)
 - **Total Optimization**: 80% reduction in API calls vs baseline approach
 
 ---
@@ -263,10 +262,11 @@ This is a public repository with:
 
 **To clone this repository**:
 ```bash
-git clone https://github.com/CodestromTeam/lumina-ai-learning.git
-cd lumina-ai-learning
+git clone https://github.com/TheMukeshdev/lumina-ai.git
+cd lumina-ai
 npm install
 echo "VITE_GEMINI_API_KEY=your_key" > .env.local
+cd lumina-ai-learning
 npm run dev
 ```
 

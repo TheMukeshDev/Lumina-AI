@@ -1,4 +1,4 @@
-# 🎓 Lumina - AI-Powered Learning Assistant
+# 🎓:  Lumina - AI-Powered Learning Assistant
 
 **Hackathon Submission** | Team **Codestrom** | Google Gemini API Challenge
 
@@ -16,7 +16,6 @@
 
 ---
 
-## 🚀 Features
 
 ### 🎯 Core Capabilities
 - **Smart Image Analysis**: Upload any visual learning material and get AI-powered analysis
@@ -34,19 +33,6 @@
 - **Mobile Responsive**: Fully responsive design for all devices
 - **Real-time Feedback**: Interactive quiz with color-coded responses
 - **Intuitive Controls**: Drag-and-drop file upload with visual feedback
-
----
-
-## 📋 Quick Links
-
-- [Features](#-features)
-- [Quick Start (5 min)](#-quick-start)
-- [API Setup](#-api-setup--security)
-- [Theme 2 Features](#-theme-2-advanced-features)
-- [Technical Stack](#-technical-stack)
-- [Troubleshooting](#-troubleshooting)
-
----
 
 ## � What Makes Lumina Special
 
@@ -223,28 +209,7 @@ lumina-ai-learning/
 
 ---
 
-## 🏆 Hackathon Submission
 
-**Challenge**: Gemini Blitz - GenAI Frontiers: App Development using the Gemini API
-
-**Theme**: Hyper-Personalized Learning
-
-**Team**: Codestrom
-- **Lead**: Mukesh Kumar
-- **Members**: Deepa Tiwari, Sakshi Gupta
-
-### Key Achievements
-✅ Theme 1: Image-based learning tool (original features)
-✅ Theme 2: Document QA + Content Generation (advanced features)
-✅ 80% API efficiency improvement through smart batching
-✅ Comprehensive documentation & user guides
-✅ Secure API key handling & best practices
-✅ Production-ready code with error handling
-✅ Responsive UI with smooth animations
-
-**Status**: ✅ Complete & Production-Ready
-
----
 
 ## 🔗 GitHub Repository
 
@@ -286,12 +251,9 @@ Created for the **Gemini Blitz Hackathon** by Team Codestrom. Open source.
 
 - **Setup issues?** → See [Quick Start](#-quick-start-5-minutes) and [Prerequisites](#prerequisites)
 - **API problems?** → Check [API Key Setup](#-api-key-setup-mandatory-security)
-- **Feature questions?** → Review [Theme 2 Features](#-theme-2-advanced-features)
 - **Technical details?** → Read [THEME2_ARCHITECTURE.md](./THEME2_ARCHITECTURE.md)
-- **How to use?** → Follow [THEME2_QUICKSTART.md](./THEME2_QUICKSTART.md)
+- **Contact Me** → [Mukesh Kumar](t.me/themukeshdev)
 
 ---
 
-**Team Codestrom** | Mukesh Kumar (Lead) | Deepa Tiwari, Sakshi Gupta
-
-**Built with ❤️ for Education**
+**Built with ❤️ for Mukesh**

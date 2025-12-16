@@ -2,6 +2,7 @@
   "name": "lumina-ai-learning",
   "version": "1.0.0",
   "description": "Gemini-powered AI learning application - Hyper-Personalized Learning using the Gemini API",
+  "homepage": "https://TheMukeshDev.github.io/lumina-ai-learning",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -24,6 +25,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "predeploy": "npm run build",
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   }

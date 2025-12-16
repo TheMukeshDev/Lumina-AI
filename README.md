@@ -133,7 +133,6 @@ Generate consistent AI-written content:
 - **Multi-Variant Generation**: Get 1-5 variants in ONE API call
 - **Quality Metrics**: Coherence, relevance, readability scores
 
-📖 **[Complete Theme 2 Documentation](./THEME2_DOCUMENTATION_INDEX.md)** | **[Quick Start Guide](./THEME2_QUICKSTART.md)**
 
 ---
 
@@ -197,18 +196,6 @@ lumina-ai-learning/
 | **"Cannot find module 'react'"** | Run `npm install` to install all dependencies |
 | **Build fails with errors** | Run `npm run build` to see detailed TypeScript errors |
 | **Blank page loads** | Open browser console (F12) and check for errors |
-
----
-
-## 📚 Documentation
-
-- **[THEME2_DOCUMENTATION_INDEX.md](./THEME2_DOCUMENTATION_INDEX.md)** - Full documentation hub
-- **[THEME2_QUICKSTART.md](./THEME2_QUICKSTART.md)** - Step-by-step tutorials
-- **[THEME2_ARCHITECTURE.md](./THEME2_ARCHITECTURE.md)** - System design & optimization
-- **[THEME2_IMPLEMENTATION.md](./THEME2_IMPLEMENTATION.md)** - Feature reference
-
----
-
 
 
 ## 🔗 GitHub Repository

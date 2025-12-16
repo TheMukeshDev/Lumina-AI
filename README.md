@@ -50,14 +50,12 @@
 
 ## � What Makes Lumina Special
 
-### Original Features (Theme 1)
+### Features
 ✅ **Smart Image Analysis** - Upload diagrams, notes, screenshots  
 ✅ **AI Summaries** - Auto-generated study guides  
 ✅ **Interactive Quizzes** - 3-question knowledge checks  
 ✅ **Text-to-Speech** - Listen to content  
 ✅ **Concept Deep-Dives** - Click to explain any term  
-
-### New Theme 2 Features 🚀
 ✅ **Dynamic Learning Tool** - Upload documents → Get 5 complex questions  
 ✅ **Persona-Based Generator** - Generate content with consistent AI personas  
 ✅ **80% Fewer API Calls** - Intelligent batching & optimization  

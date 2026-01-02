@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "lumina-ai-learning/package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } },
+    { "src": "lumina-ai-learning/api/**/*.js", "use": "@vercel/node" },
+    { "src": "lumina-ai-learning/api/**/*.ts", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/lumina-ai-learning/api/$1.js" },
+    { "src": "/(.*)", "dest": "/lumina-ai-learning/index.html" }
+  ]
+}

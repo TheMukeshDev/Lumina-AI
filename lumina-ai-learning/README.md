@@ -107,6 +107,26 @@ The project is configured for GitHub Pages deployment:
    https://TheMukeshDev.github.io/Lumina-AI
    ```
 
+---
+
+### Deploy to Vercel (recommended for serverless proxy & secure API keys)
+
+Steps:
+
+1. **Create a new Vercel project** and point the Project Root to the `lumina-ai-learning` folder in your repo.
+2. **Build & Output Settings** (Vercel will usually detect Vite):
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+3. **Add environment variable** (in Vercel Dashboard → Settings → Environment Variables):
+   - **Key**: `GEMINI_API_KEY`
+   - **Value**: your actual Gemini API key (DO NOT prefix with `VITE_` — this is server-only)
+4. **Deploy** and visit the generated Vercel URL.
+
+Notes:
+- The app now uses a server-side proxy at `/api/gemini` so your Gemini API key remains secret on the server.
+- If you previously used `VITE_GEMINI_API_KEY` locally for development, continue to use `.env.local` for local dev; in production put the key in Vercel as `GEMINI_API_KEY`.
+- Ensure your Vercel project root is set to `lumina-ai-learning` so builds run from the correct folder.
+
 ## 📚 Documentation
 
 For detailed documentation, see the [docs/README.md](docs/README.md) or visit the following:

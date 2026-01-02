@@ -68,11 +68,10 @@ You must maintain consistency with this persona in ALL responses. Generate high-
 export async function generatePersonaDrivenContent(
   persona: SystemPersona,
   request: ContentRequest,
-  apiKey: string
+  apiKey?: string
 ): Promise<GeneratedContent> {
-  if (!apiKey) {
-    throw new Error('API key missing');
-  }
+  // Uses the server-side proxy at /api/gemini when possible (recommended for Vercel).
+  // Passing apiKey is still supported but not required when deploying to Vercel with GEMINI_API_KEY set.
 
   const systemPrompt = buildPersonaSystemPrompt(persona);
 
@@ -94,12 +93,13 @@ ${request.customContext ? `ADDITIONAL CONTEXT:\n${request.customContext}` : ''}
 Generate the complete, final output now. Do not ask for clarification or provide alternatives. Provide only the content itself, ready for immediate use.`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+    // Use server proxy when possible
+    const response = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'gemini-2.0-flash',
+        payload: {
           systemInstruction: {
             parts: [{ text: systemPrompt }],
           },
@@ -114,9 +114,9 @@ Generate the complete, final output now. Do not ask for clarification or provide
             topP: 0.95,
             topK: 40,
           },
-        }),
-      }
-    );
+        }
+      }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -175,9 +175,7 @@ export async function generateMultipleVariants(
   variantCount: number,
   apiKey: string
 ): Promise<GeneratedContent[]> {
-  if (!apiKey) {
-    throw new Error('API key missing');
-  }
+
 
   const systemPrompt = buildPersonaSystemPrompt(persona);
 
@@ -195,12 +193,12 @@ Format your response as a numbered list with clear separation between variants.
 Each variant should be complete and standalone.`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+    const response = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'gemini-2.0-flash',
+        payload: {
           systemInstruction: {
             parts: [{ text: systemPrompt }],
           },
@@ -215,9 +213,9 @@ Each variant should be complete and standalone.`;
             topP: 0.95,
             topK: 40,
           },
-        }),
-      }
-    );
+        }
+      }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

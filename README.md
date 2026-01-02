@@ -1,18 +1,6 @@
 # 🎓:  Lumina - AI-Powered Learning Assistant
 
-**Hackathon Submission** | Team **Codestrom** | Google Gemini API Challenge
-
 **Lumina** transforms learning through AI-powered analysis. Upload images of learning materials—diagrams, notes, or screenshots—and get instant summaries, quizzes, and explanations powered by **Google's Gemini API**.
-
----
-
-## 👥 Team Information
-
-| Role | Name |
-|------|------|
-| **Team Name** | Codestrom |
-| **Team Leader** | Mukesh Kumar |
-| **Members** | Deepa Tiwari, Sakshi Gupta |
 
 ---
 

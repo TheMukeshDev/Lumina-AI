@@ -141,12 +141,12 @@ export default function LuminaApp() {
 
       const difficultyPrompt = difficulty === 'easier' ? 'easier' : difficulty === 'harder' ? 'harder' : 'medium';
       
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash-preview-09-2025',
+          payload: {
             contents: [{
               parts: [
                 { text: `Create exactly ${questionNum} ${difficultyPrompt} difficulty multiple choice questions from this image. Return ONLY this JSON format, no other text:\n{"summary": "2-3 sentences", "key_concepts": ["c1", "c2", "c3", "c4", "c5"], "analogy": "one sentence", "quiz": [{"question": "q1", "options": ["a", "b", "c", "d"], "answer": "correct option"}]}` },
@@ -158,9 +158,9 @@ export default function LuminaApp() {
               temperature: 0.7,
               maxOutputTokens: 4096
             }
-          })
-        }
-      );
+          }
+        })
+      });
 
       // Handle 503 (overloaded) with retry
       if (response.status === 503 && retryCount < 3) {
@@ -243,12 +243,12 @@ export default function LuminaApp() {
 
       const difficultyPrompt = difficulty === 'easier' ? 'easier' : difficulty === 'harder' ? 'harder' : 'medium';
       
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash-preview-09-2025',
+          payload: {
             contents: [{
               parts: [{
                 text: `Analyze YouTube video ID: ${videoId}. Create exactly ${questionNum} ${difficultyPrompt} difficulty questions. Return ONLY this JSON format, no other text:\n{"summary": "2-3 sentences", "key_concepts": ["c1", "c2", "c3", "c4", "c5"], "analogy": "one sentence", "quiz": [{"question": "q1", "options": ["a", "b", "c", "d"], "answer": "correct option"}]}`
@@ -259,9 +259,9 @@ export default function LuminaApp() {
               temperature: 0.7,
               maxOutputTokens: 4096
             }
-          })
-        }
-      );
+          }
+        })
+      });
 
       // Handle 503 (overloaded) with retry
       if (response.status === 503 && retryCount < 3) {
@@ -341,12 +341,12 @@ export default function LuminaApp() {
   const generateSpeech = async (text: string) => {
     try {
       setIsSpeaking(true);
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash-preview-tts',
+          payload: {
             contents: [{ parts: [{ text: text }] }],
             generationConfig: {
               responseModalities: ["AUDIO"],
@@ -356,9 +356,9 @@ export default function LuminaApp() {
                 }
               }
             }
-          })
-        }
-      );
+          }
+        })
+      });
 
       const data = await response.json();
       if (data.error) throw new Error(data.error.message);
@@ -396,16 +396,11 @@ export default function LuminaApp() {
       : `Explain the concept "${term}" simply and briefly (max 2 sentences) in the context of: ${result.summary}`;
 
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }]
-          })
-        }
-      );
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'gemini-2.5-flash-preview-09-2025', payload: { contents: [{ parts: [{ text: prompt }] }] } })
+      });
 
       const data = await response.json();
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Could not generate explanation.";
@@ -420,12 +415,12 @@ export default function LuminaApp() {
   const generateFlashcards = async () => {
     if (!result) return;
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash-preview-09-2025',
+          payload: {
             contents: [{
               parts: [{
                 text: `Based on this learning material:
@@ -444,9 +439,9 @@ Create 8-12 flashcards covering the key concepts. Each must have term, definitio
               }]
             }],
             generationConfig: { responseMimeType: "application/json" }
-          })
-        }
-      );
+          }
+        })
+      });
 
       const data = await response.json();
       if (!data.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('Invalid response');
@@ -466,12 +461,12 @@ Create 8-12 flashcards covering the key concepts. Each must have term, definitio
   const generateStudyGuide = async () => {
     if (!result) return;
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gemini-2.5-flash-preview-09-2025',
+          payload: {
             contents: [{
               parts: [{
                 text: `Create a comprehensive study guide based on:
@@ -493,9 +488,9 @@ Create 4-5 sections with practical, detailed content suitable for deep learning.
               }]
             }],
             generationConfig: { responseMimeType: "application/json" }
-          })
-        }
-      );
+          }
+        })
+      });
 
       const data = await response.json();
       if (!data.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('Invalid response');
@@ -521,12 +516,12 @@ Create 4-5 sections with practical, detailed content suitable for deep learning.
     const total = result.quiz.length;
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-    fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+    fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'gemini-2.5-flash-preview-09-2025',
+        payload: {
           contents: [{
             parts: [{
               text: `Analyze student performance:
@@ -545,9 +540,9 @@ Provide personalized feedback based on their performance.`
             }]
           }],
           generationConfig: { responseMimeType: "application/json" }
-        })
-      }
-    ).then(r => r.json()).then(data => {
+        }
+      })
+    }).then(r => r.json()).then(data => {
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
       const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
       

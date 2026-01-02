@@ -56,7 +56,8 @@ Welcome! Your Lumina AI project has been **professionally refined** for GitHub P
 
 **I want to...** → **Read this**
 
-- Deploy to GitHub Pages → [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)
+| Deploy to GitHub Pages → [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)  
+| Deploy to Vercel → [DEPLOYING_ON_VERCEL.md](DEPLOYING_ON_VERCEL.md)
 - Setup locally → [lumina-ai-learning/README.md](lumina-ai-learning/README.md)
 - Understand structure → [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 - See what changed → [REFINEMENT_SUMMARY.md](REFINEMENT_SUMMARY.md)

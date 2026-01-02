@@ -1,0 +1,10 @@
+{
+  "name": "lumina-ai-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix lumina-ai-learning run build",
+    "dev": "npm --prefix lumina-ai-learning run dev",
+    "preview": "npm --prefix lumina-ai-learning run preview"
+  }
+}

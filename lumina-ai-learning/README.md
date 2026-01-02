@@ -111,21 +111,36 @@ The project is configured for GitHub Pages deployment:
 
 ### Deploy to Vercel (recommended for serverless proxy & secure API keys)
 
-Steps:
+Steps (quick):
 
-1. **Create a new Vercel project** and point the Project Root to the `lumina-ai-learning` folder in your repo.
-2. **Build & Output Settings** (Vercel will usually detect Vite):
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-3. **Add environment variable** (in Vercel Dashboard → Settings → Environment Variables):
-   - **Key**: `GEMINI_API_KEY`
-   - **Value**: your actual Gemini API key (DO NOT prefix with `VITE_` — this is server-only)
-4. **Deploy** and visit the generated Vercel URL.
+1. **Create a new Vercel project** and import the GitHub repo.
+2. On the import page use these settings:
+   - **Root Directory**: `/` (leave blank) — the root `vercel.json` points to the subfolder
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `lumina-ai-learning/dist`
+3. **Root package.json** (recommended): add a top-level `package.json` with forwarded scripts so `npm run build` calls the subpackage build:
 
-Notes:
-- The app now uses a server-side proxy at `/api/gemini` so your Gemini API key remains secret on the server.
-- If you previously used `VITE_GEMINI_API_KEY` locally for development, continue to use `.env.local` for local dev; in production put the key in Vercel as `GEMINI_API_KEY`.
-- Ensure your Vercel project root is set to `lumina-ai-learning` so builds run from the correct folder.
+```json
+{
+  "scripts": {
+    "build": "npm --prefix lumina-ai-learning run build",
+    "dev": "npm --prefix lumina-ai-learning run dev",
+    "preview": "npm --prefix lumina-ai-learning run preview"
+  }
+}
+```
+
+4. **Add environment variables** (Vercel Dashboard → Settings → Environment Variables):
+   - **Key**: `GEMINI_API_KEY` (server only)
+   - **Key (optional for client)**: `VITE_GEMINI_API_KEY` for local dev only (keep in `.env.local`)
+5. **Deploy** and visit the generated Vercel URL.
+
+Notes & troubleshooting:
+- If Vercel prints a plain sentence instead of running `npm run build`, ensure the root `package.json` has the requested `build` script (see above).
+- Avoid duplicate `builds` blocks in `lumina-ai-learning/vercel.json` — keep the root `vercel.json` authoritative.
+- If you get 404/blank pages: check `Output Directory` and `routes` in `vercel.json`.
+
+If you'd like a full step-by-step verification checklist, see the new `DEPLOYING_ON_VERCEL.md` in the repository root.
 
 ## 📚 Documentation
 

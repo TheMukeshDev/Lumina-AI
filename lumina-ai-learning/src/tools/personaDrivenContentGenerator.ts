@@ -4,6 +4,8 @@
  * Minimizes API calls through sophisticated context management
  */
 
+import { assertOkOrThrow } from '../utils/responseHelpers';
+
 export interface SystemPersona {
   name: string;
   role: string;
@@ -118,16 +120,18 @@ Generate the complete, final output now. Do not ask for clarification or provide
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.error?.message || `API Error: ${response.status}`
-      );
+    // Use safe parser to avoid `Unexpected end of JSON input` when upstream returns an empty body.
+    const { json, text } = await assertOkOrThrow(response);
+    let data: any = json;
+    if (!data && text) {
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        data = { __rawText: text };
+      }
     }
 
-    const data = await response.json();
-
-    if (data.error) {
+    if (data && data.error) {
       throw new Error(data.error.message || 'API error');
     }
 
@@ -217,16 +221,18 @@ Each variant should be complete and standalone.`;
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.error?.message || `API Error: ${response.status}`
-      );
+    // Use safe parser to avoid `Unexpected end of JSON input`
+    const { json, text } = await assertOkOrThrow(response);
+    let data: any = json;
+    if (!data && text) {
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        data = { __rawText: text };
+      }
     }
 
-    const data = await response.json();
-
-    if (data.error) {
+    if (data && data.error) {
       throw new Error(data.error.message || 'API error');
     }
 

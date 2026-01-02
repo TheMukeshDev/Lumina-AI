@@ -31,6 +31,8 @@ export interface UserFeedback {
   notes?: string;
 }
 
+import { assertOkOrThrow } from '../utils/responseHelpers';
+
 export async function analyzeLargeDocument(
   documentText: string,
   documentTitle: string,
@@ -106,14 +108,18 @@ ${truncatedText}`;
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.error?.message || `API Error: ${response.status}`
-      );
-    }
+    // Use a safe parser - upstream may return empty or non-JSON bodies which cause response.json() to throw.
+    const { json, text } = await assertOkOrThrow(response);
 
-    const data = await response.json();
+    // Prefer parsed JSON but fall back to raw text (kept under __rawText) so downstream code can still inspect it.
+    let data: any = json;
+    if (!data && text) {
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        data = { __rawText: text };
+      }
+    }
 
     if (data.error) {
       throw new Error(data.error.message || 'API error');
@@ -237,14 +243,16 @@ Return ONLY this JSON format:
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.error?.message || `API Error: ${response.status}`
-      );
+    // Use safe parsing for error or success
+    const { json, text } = await assertOkOrThrow(response);
+    let data: any = json;
+    if (!data && text) {
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        data = { __rawText: text };
+      }
     }
-
-    const data = await response.json();
 
     if (data.error) {
       throw new Error(data.error.message || 'API error');

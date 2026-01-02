@@ -3,6 +3,7 @@ import { Upload, Sparkles, Brain, Zap, BookOpen, CheckCircle2, Loader2, Volume2,
 import { motion, AnimatePresence } from 'framer-motion';
 import DynamicLearningSummaryTool from './components/DynamicLearningSummaryTool';
 import PersonaDrivenContentGenerator from './components/PersonaDrivenContentGenerator';
+import { assertOkOrThrow } from './utils/responseHelpers';
 
 const apiKey = (import.meta.env.VITE_GEMINI_API_KEY as string) || "";
 
@@ -170,14 +171,18 @@ export default function LuminaApp() {
         return analyzeImageWithGemini(base64Image, questionNum, difficulty, retryCount + 1);
       }
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        const errorMsg = data.error?.message || `HTTP ${response.status}`;
-        throw new Error(errorMsg);
+      // Use safe parser to avoid `Unexpected end of JSON input`
+      const { json, text } = await assertOkOrThrow(response);
+      let data: any = json;
+      if (!data && text) {
+        try {
+          data = JSON.parse(text);
+        } catch (_) {
+          data = { __rawText: text };
+        }
       }
-      
-      if (data.error) {
+
+      if (data && data.error) {
         throw new Error(data.error.message || 'API error');
       }
 

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm --prefix lumina-ai-learning run build",
-    "dev": "npm --prefix lumina-ai-learning run dev",
+    "build": "npx --yes --prefix lumina-ai-learning vite build --config lumina-ai-learning/vite.config.ts --outDir lumina-ai-learning/dist",
+    "dev": "npx --yes --prefix lumina-ai-learning vite --config lumina-ai-learning/vite.config.ts",
     "preview": "npm --prefix lumina-ai-learning run preview"
   }
 }

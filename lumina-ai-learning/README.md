@@ -140,6 +140,15 @@ Notes & troubleshooting:
 - Avoid duplicate `builds` blocks in `lumina-ai-learning/vercel.json` — keep the root `vercel.json` authoritative.
 - If you get 404/blank pages: check `Output Directory` and `routes` in `vercel.json`.
 
+#### Vercel recommendations
+Vercel offers several optional recommendations in the project UI that can improve build time and deployment safety:
+
+- **Build Multiple Deployments Simultaneously** (On-Demand Concurrent Builds) — reduces queue times when many commits land.
+- **Get builds up to 40% faster** (increase Build Machine size) — helpful for large builds or heavy dependency installs.
+- **Prevent Frontend-Backend Mismatches** (Deployment Protection, Skew Protection) — sync client and server deployments to avoid runtime mismatches.
+
+You can enable these from your Vercel Project → Settings → Build & Development (and Safety/Protection). Apply the ones that match your workflow and budget.
+
 If you'd like a full step-by-step verification checklist, see the new `DEPLOYING_ON_VERCEL.md` in the repository root.
 
 ## 📚 Documentation

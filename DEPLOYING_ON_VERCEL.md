@@ -18,6 +18,17 @@ We keep the actual app in the `lumina-ai-learning/` subdirectory (Vite + React).
 
 > Tip: Keep a single source of truth for Vercel builds — the root `vercel.json` is recommended.
 
+> **Important:** Remove any nested `vercel.json` files in subdirectories (for example `lumina-ai-learning/vercel.json`) as they can cause Vercel to ignore Project Settings and lead to conflicting build behavior. Run:
+>
+> ```bash
+> git rm lumina-ai-learning/vercel.json
+> git commit -m "chore: remove redundant subdir vercel.json"
+> git push
+> ```
+>
+> After removing the nested file, if Vercel still shows **No framework detected** set the **Framework Preset** to **Vite** in the Project Settings → General → Framework Preset.
+
+
 ## 3) Setup on Vercel (UI)
 
 1. Login to Vercel and click **New Project** → import your GitHub repo.
@@ -95,6 +106,27 @@ This will deploy the subdirectory as a project; prefer the UI for long term proj
 - Visit the deployment URL printed in Vercel.
 - Check the **Functions** and **Logs** panels for errors.
 - If static assets 404, check the base path in `vite.config.ts`.
+
+## 9) Vercel recommendations (optional but useful)
+
+Vercel surfaces recommendations in the project UI. These settings improve build speed, reliability, and consistency between client and server:
+
+- **Build Multiple Deployments Simultaneously (On-Demand Concurrent Builds)**
+  - What: Allow multiple builds to run concurrently to avoid queued builds
+  - Why: Reduces wait times when many commits trigger builds
+  - Where: Project → Settings → Build & Development → On-Demand Concurrent Builds
+
+- **Get builds up to 40% faster (Bigger Build Machine)**
+  - What: Increase build machine size (more vCPUs / memory)
+  - Why: Faster build times for large projects or heavy dependency installs
+  - Where: Project → Settings → Build & Development → Build Machine
+
+- **Prevent Frontend-Backend Mismatches (Deployment Protection / Syncing)**
+  - What: Use deployment protection or pinned versions so backend functions and frontend builds are synchronized
+  - Why: Avoid subtle runtime errors caused by mismatched client/server code or APIs
+  - Where: Project → Settings → Safety/Protection features (Deployment Protection, Skew Protection), or implement version checks in your serverless functions
+
+> Tip: These recommendations are optional; apply the ones that fit your workflow and budget. For CI-driven environments, combining On-Demand Concurrent Builds with a slightly larger build machine gives the best developer experience.
 
 ---
 

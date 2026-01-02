@@ -1,0 +1,32 @@
+name: Post-deploy Smoke Test
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    name: Smoke test deployed site
+    runs-on: ubuntu-latest
+    env:
+      PROD_URL: ${{ secrets.PRODUCTION_URL }}
+    steps:
+      - name: Check PRODUCTION_URL secret exists
+        run: |
+          if [ -z "${PROD_URL}" ]; then
+            echo "Repository secret PRODUCTION_URL is not set. Please add it (e.g. https://lumina-ai-iota-five.vercel.app)"
+            exit 1
+          fi
+
+      - name: Wait a moment for deployment to finish
+        run: |
+          echo "Sleeping for 10s to allow a recent deployment to settle..."
+          sleep 10
+
+      - name: Smoke test /health endpoint
+        run: |
+          echo "Pinging ${PROD_URL}/health"
+          RESP=$(curl -sS -m 10 "${PROD_URL}/health" || true)
+          echo "Response: $RESP"
+          echo "$RESP" | grep -q '"status":"ok"' || (echo "Health check failed" && exit 1)

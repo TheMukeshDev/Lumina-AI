@@ -7,6 +7,7 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/lumina-ai-learning/api/$1.js" },
+    { "src": "/health", "dest": "/lumina-ai-learning/api/health.js" },
     { "src": "/(.*)", "dest": "/lumina-ai-learning/index.html" }
   ]
 }

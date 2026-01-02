@@ -29,13 +29,19 @@ export default async function handler(req, res) {
 
     const text = await response.text();
 
-    // Forward status and body (preserve JSON text)
-    res.status(response.status).setHeader('Content-Type', 'application/json');
-
     // Forward Retry-After header if present
     const retryAfter = response.headers.get('Retry-After');
     if (retryAfter) res.setHeader('Retry-After', retryAfter);
 
+    // If upstream returned no body, return a helpful JSON error (prevents client from calling response.json() on empty body)
+    if (!text || text.trim().length === 0) {
+      return res.status(response.status).json({
+        error: { message: 'Empty response from Gemini API', status: response.status, statusText: response.statusText }
+      });
+    }
+
+    // Forward status and body (preserve JSON text)
+    res.status(response.status).setHeader('Content-Type', 'application/json');
     return res.send(text);
   } catch (err) {
     console.error('Proxy error:', err);

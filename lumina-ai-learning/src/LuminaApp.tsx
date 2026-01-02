@@ -172,13 +172,13 @@ export default function LuminaApp() {
       }
 
       // Use safe parser to avoid `Unexpected end of JSON input`
-      const { json, text } = await assertOkOrThrow(response);
+      const { json, text: raw } = await assertOkOrThrow(response);
       let data: any = json;
-      if (!data && text) {
+      if (!data && raw) {
         try {
-          data = JSON.parse(text);
+          data = JSON.parse(raw);
         } catch (_) {
-          data = { __rawText: text };
+          data = { __rawText: raw };
         }
       }
 
@@ -276,14 +276,14 @@ export default function LuminaApp() {
         return analyzeYoutubeTranscript(videoId, questionNum, difficulty, retryCount + 1);
       }
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        const errorMsg = data.error?.message || `HTTP ${response.status}`;
-        throw new Error(errorMsg);
+      // Use safe parser
+      const { json, text: raw } = await assertOkOrThrow(response);
+      let data: any = json;
+      if (!data && raw) {
+        try { data = JSON.parse(raw); } catch (_) { data = { __rawText: raw }; }
       }
-      
-      if (data.error) {
+
+      if (data && data.error) {
         throw new Error(data.error.message || 'API error');
       }
 
@@ -365,8 +365,13 @@ export default function LuminaApp() {
         })
       });
 
-      const data = await response.json();
-      if (data.error) throw new Error(data.error.message);
+      const { json, text } = await assertOkOrThrow(response);
+      let data: any = json;
+      if (!data && text) {
+        try { data = JSON.parse(text); } catch (_) { data = { __rawText: text }; }
+      }
+
+      if (data && data.error) throw new Error(data.error.message);
 
       const base64Audio = data.candidates[0].content.parts[0].inlineData.data;
       const binaryString = atob(base64Audio);
@@ -407,8 +412,9 @@ export default function LuminaApp() {
         body: JSON.stringify({ model: 'gemini-2.5-flash-preview-09-2025', payload: { contents: [{ parts: [{ text: prompt }] }] } })
       });
 
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Could not generate explanation.";
+      const { json, text: raw } = await assertOkOrThrow(response);
+      const data: any = json ?? (raw ? (() => { try { return JSON.parse(raw); } catch (_) { return { __rawText: raw }; } })() : null);
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Could not generate explanation.";
       setConceptExplanation({ term: term, text });
     } catch (e) {
       setConceptExplanation({ term: term, text: "Failed to load explanation." });
@@ -448,9 +454,10 @@ Create 8-12 flashcards covering the key concepts. Each must have term, definitio
         })
       });
 
-      const data = await response.json();
-      if (!data.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('Invalid response');
-      
+      const { json, text: raw } = await assertOkOrThrow(response);
+      const data: any = json ?? (raw ? (() => { try { return JSON.parse(raw); } catch (_) { return { __rawText: raw }; } })() : null);
+      if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('Invalid response');
+
       const text = data.candidates[0].content.parts[0].text;
       const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
       setFlashcards(parsed.flashcards || []);
@@ -497,8 +504,9 @@ Create 4-5 sections with practical, detailed content suitable for deep learning.
         })
       });
 
-      const data = await response.json();
-      if (!data.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('Invalid response');
+      const { json, text: raw } = await assertOkOrThrow(response);
+      const data: any = json ?? (raw ? (() => { try { return JSON.parse(raw); } catch (_) { return { __rawText: raw }; } })() : null);
+      if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('Invalid response');
       
       const text = data.candidates[0].content.parts[0].text;
       const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
